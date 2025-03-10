@@ -12,6 +12,21 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+import os
+import dj_database_url  # Install this package if using DATABASE_URL for Postgres
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(os.path.dirname(__file__), "db.sqlite3"),
+    }
+}
+
+# If using DATABASE_URL (for PostgreSQL, MySQL, etc.)
+DATABASES["default"] = dj_database_url.config(default=os.getenv("DATABASE_URL", "sqlite:///db.sqlite3"))
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#2s!mcwqm7wfr1kn-h$u5-gneq2uqlm&1py$t^1swl*p!4flx*'
+# SECRET_KEY = 'django-insecure-#2s!mcwqm7wfr1kn-h$u5-gneq2uqlm&1py$t^1swl*p!4flx*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
